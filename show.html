@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  </head>
+
+  <script>
+     function loadForm() {
+      var id = location.pathname.split('/')[2];
+      var form = '<form action="/employees/' + id +'"' + " " + 'method="post" enctype="application/x-www-form-urlencoded">' + 
+        '<p><label>First name<input type="text" name="first_name"></label></p>' +
+        '<p><label>Last name<input type="text" name="last_name"></label></p>' + 
+        '<p><label>Yearly Salary<input type="text" name="salary"></label></p>' +
+        '<p><input type="hidden" name="method" value="put"></p>' + 
+        '<p><button>Submit</button></p>' +
+        '</form>' +
+        '<form action="/employees/' + id +'"' + " " + 'method="post" enctype="application/x-www-form-urlencoded">' + 
+        '<p> <input type="hidden", name="method", value="delete"> </p>' +
+        '<p><button type="submit">Delete employee</button></p>'; 
+      document.getElementById("form").innerHTML = form;
+      };
+  </script>
+  <body onload="loadForm()">
+    <h1>Show page</h1>
+    <div id="form">
+    </div>
+
+  </body>
+</html>

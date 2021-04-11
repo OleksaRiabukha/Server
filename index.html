@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+  <html>
+    <head> 
+      <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+      <script>
+        function showAllEmployees() {
+          var xhttp = new XMLHttpRequest();
+          var radios = document.getElementsByName('sort_by');
+          for (var i = 0, length = radios.length; i < length; i++) {
+            if (radios[i].checked) {
+              var url = 'http://localhost:3000/employees' + '?' + 'sort_by' + "=" + radios[i].value;
+              xhttp.open("GET", url, true);;
+              break;
+            }
+          }
+          
+          xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              var jsonObj = JSON.parse(this.responseText);
+              appendData(jsonObj);
+             }
+          };
+
+        
+          
+          function appendData(data) {
+            var mainContainer = document.getElementById("result");
+            for (var i = 0; i < data.length; i++) {
+                button_show = '<button onclick=' + "location.href='/employees/" + data[i].id + "'" + " " + 'type="button">Show employee</button>'
+                var div = document.createElement("div");
+                div.innerHTML = data[i].first_name + ' ' + data[i].last_name + ' ' + data[i].salary + button_show;
+                mainContainer.appendChild(div);
+            }
+        };
+          xhttp.send();
+        
+        }
+      </script>      
+    </head>
+
+    <body> 
+      <h1>Here we are</h1>
+      <form action="/add/employee" method="post" enctype="application/x-www-form-urlencoded">
+        <p><label>First name <input type="text" name="first_name"></label></p>
+        <p><label>Last name <input type="text" name="last_name"></label></p>
+        <p><label>Yearly Salary <input type="text" name="salary"></label></p>
+        <p><button>Submit</button></p>
+      </form>
+  
+     <div id="myData"></div>
+        <form>
+        <input type="radio" id="myRadio" name="sort_by" value="last_name?ASC" checked>
+        <label for="myRadio">Sort by lastname, ascending</label>
+        <input type="radio" id="myRadio" name="sort_by" value="last_name?DESC">
+        <label for="myRadio">Sort by last name, descending</label>
+        <input type="radio" id="myRadio" name="sort_by" value="salary?ASC">
+        <label for="myRadio">Sort by salary, ascending</label>
+        <input type="radio" id="myRadio" name="sort_by" value="salary?DESC">
+        <label for="myRadio">Sort by salary, descending</label>
+        <button type="button" onclick="showAllEmployees()">Submit</button>
+      </form>
+    </div>
+
+    <div id="result">
+
+    </div>
+    </body>
+  </html>
